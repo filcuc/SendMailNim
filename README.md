@@ -1,13 +1,13 @@
 # SendMailNim
 Simple application for sending email through your GMail account
 
-# Install
+## Install
 Simply invoke
 ```
 nimble build
 ```
 
-# Usage
+## Usage
 First you need obtain a clientId and a clientSecret
 from google by creating an application on your google api
 console.
