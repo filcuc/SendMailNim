@@ -1,4 +1,4 @@
-import parseopt2, OAuth2Flow, json, os, httpclient, strutils
+import parseopt, OAuth2Flow, json, os, httpclient, strutils
 
 
 type
@@ -21,7 +21,7 @@ type
 
 proc isNullOrEmpty(temp: string): bool =
   ## Return true if the string is null or empty, false otherwise
-  return temp == nil or temp == ""
+  return temp == ""
 
 
 proc printUsage() =
@@ -110,8 +110,8 @@ proc readOptionsFromConfigFile(fileName: string, options: var Options) =
   options.clientId = clientId
   options.clientSecret = clientSecret
 
-proc refreshAccessToken(clientId: string, clientSecret: string,
-                        refreshToken: string): Credentials =
+
+proc refreshAccessToken(clientId: string, clientSecret: string, refreshToken: string): Credentials =
   let
     scopes = ["https://www.googleapis.com/auth/gmail.send"]
     redirectUri = "urn:ietf:wg:oauth:2.0:oob"
@@ -122,7 +122,8 @@ proc refreshAccessToken(clientId: string, clientSecret: string,
   result.refreshToken = refreshToken
   flow.refreshAccessToken(result)
 
-proc setupAccessToken(clientId: string, clientSecret: string): Credentials = 
+
+proc setupAccessToken(clientId: string, clientSecret: string): Credentials =
   ## Obtain an access token
   let
     scopes = ["https://www.googleapis.com/auth/gmail.send"]
@@ -163,7 +164,7 @@ proc sendEmail(options: Options) =
     raise newException(SendException, response.body)
 
 proc mainProc() =
-  let fileName = "credentials.json"
+  let fileName = joinPath(getAppDir(), "credentials.json")
   var options: Options
   if existsFile(fileName):
     readOptionsFromConfigFile(fileName, options)
